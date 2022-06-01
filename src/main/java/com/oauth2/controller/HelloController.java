@@ -49,7 +49,7 @@ public class HelloController {
     @Autowired
     private UserService userService;
 
-
+    // 提交测试
     @PostMapping("/login")
     public JsonResult login(@RequestBody Map<String,String> request) throws HttpRequestMethodNotSupportedException {
         User userClient = new User("password","123456",new ArrayList<>());
