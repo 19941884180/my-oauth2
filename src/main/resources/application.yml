@@ -39,3 +39,10 @@ mybatis:
 logging:
   level:
     com.oauth2.mapper: debug
+
+zm:
+  jwt:
+    header: Authorization
+    expire: 604800 # 7天，s为单位
+    secret: abcdefghabcdefghabcdefghabcdefgh
+    privateKey: 123123

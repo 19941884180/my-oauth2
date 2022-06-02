@@ -15,11 +15,18 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId("rid").stateless(true);
+//        resources.resourceId("rid").stateless(true);
+        super.configure(resources);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+//        http
+//                .formLogin().and()
+//                .requestMatcher(requestMatcher())
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.OPTIONS).permitAll()
+//                .anyRequest().authenticated();
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("admin")
                 .antMatchers("/user/**").hasRole("user")

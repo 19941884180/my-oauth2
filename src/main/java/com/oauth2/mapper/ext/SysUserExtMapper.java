@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2022/6/1 11:18
  */
 public interface SysUserExtMapper {
-    List<Role> selectRoleListByUserId(@Param("userId") Integer userId);
+    List<Role> selectRoleListByUserId(@Param("userId") Long userId);
 
-    List<Permission> selectPermissionByUserId(@Param("userId") Integer userId);
+    List<Permission> selectPermissionByUserId(@Param("userId") Long userId);
 }

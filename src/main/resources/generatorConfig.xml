@@ -37,22 +37,32 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table tableName="sys_user">
-            <generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
+        <table tableName="sys_permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="role">
-            <generatedKey column="role_id" sqlStatement="MySql" identity="true"/>
+        <table tableName="sys_request_path">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_request_path_permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_role">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_role_permission">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_user">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="sys_user_role">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="oauth_client_details">
             <generatedKey column="client_id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="permission">
-            <generatedKey column="permission_id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="role_permission">
-        </table>
-        <table tableName="user_role">
-        </table>
+
+
     </context>
 
 </generatorConfiguration>

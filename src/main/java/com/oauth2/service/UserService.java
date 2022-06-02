@@ -12,5 +12,5 @@ import java.util.List;
 public interface UserService {
     SysUser selectByName(String name);
 
-    List<Permission> selectPermissionByUserId(Integer userId);
+    List<Permission> selectPermissionByUserId(Long userId);
 }

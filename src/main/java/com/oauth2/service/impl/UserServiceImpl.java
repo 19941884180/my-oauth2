@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public SysUser selectByName(String name) {
         SysUserExample sysUserExample = new SysUserExample();
-        sysUserExample.createCriteria().andUsernameEqualTo(name);
+        sysUserExample.createCriteria().andAccoundEqualTo(name);
         List<SysUser> sysUsers =
                 sysUserMapper.selectByExample(sysUserExample);
         if(CollectionUtils.isEmpty(sysUsers)){
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Permission> selectPermissionByUserId(Integer userId) {
+    public List<Permission> selectPermissionByUserId(Long userId) {
         return sysUserExtMapper.selectPermissionByUserId(userId);
     }
 }

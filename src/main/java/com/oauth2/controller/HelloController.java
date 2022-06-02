@@ -59,7 +59,7 @@ public class HelloController {
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(token,request).getBody();
 //        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         SysUser sysUser = userService.selectByName(MapUtil.getStr(request,"username"));
-        List<Permission> permissions = userService.selectPermissionByUserId(sysUser.getUserId());
+        List<Permission> permissions = userService.selectPermissionByUserId(sysUser.getId());
         sysUser.setPassword(null);
         Map<String,Object> result = new HashMap<>();
         result.put("sysUser",sysUser);
