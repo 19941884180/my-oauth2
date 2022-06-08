@@ -74,13 +74,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //        jcsb.passwordEncoder(passwordEncoder);
         clients.inMemory()
                 // 配置client_id
-                .withClient("client")
+                .withClient("client_id")
                 // 配置client_secret
                 .secret(passwordEncoder.encode("123123"))
                 //配置访问token的有效期
-                .accessTokenValiditySeconds(36000)
+                .accessTokenValiditySeconds(3600000)
                 //配置刷新token的有效期
-                .refreshTokenValiditySeconds(864000)
+                .refreshTokenValiditySeconds(86400000)
                 //配置redirect_uri，用于授权成功后跳转
                 .redirectUris("http://www.baidu.com")
                 //配置申请的权限范围

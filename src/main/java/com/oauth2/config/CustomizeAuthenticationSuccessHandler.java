@@ -7,6 +7,8 @@ import com.oauth2.utils.ResultTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
@@ -41,8 +43,8 @@ public class CustomizeAuthenticationSuccessHandler extends SavedRequestAwareAuth
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         //此处还可以进行一些处理，比如登录成功之后可能需要返回给前台当前用户有哪些菜单权限，
         //进而前台动态的控制菜单的显示等，具体根据自己的业务需求进行扩展
-//        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(user);
         //获取生成得token
         String header = request.getHeader(Constant.AUTHORIZATION);
         if (header == null || !header.startsWith("Basic ")) {
@@ -65,7 +67,7 @@ public class CustomizeAuthenticationSuccessHandler extends SavedRequestAwareAuth
 //        }
         else {
             // 4. 通过 TokenRequest构造器生成 TokenRequest
-            tokenRequest = new TokenRequest(new HashMap<>(), clientId, clientDetails.getScope(), "custom");
+            tokenRequest = new TokenRequest(new HashMap<>(), clientId, clientDetails.getScope(), "password");
         }
         // 5. 通过 TokenRequest的 createOAuth2Request方法获取 OAuth2Request
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);

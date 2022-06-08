@@ -1,6 +1,6 @@
 package com.oauth2.service;
 
-import com.oauth2.entity.Permission;
+import com.oauth2.entity.SysPermission;
 import com.oauth2.entity.SysUser;
 
 import java.util.List;
@@ -12,5 +12,5 @@ import java.util.List;
 public interface UserService {
     SysUser selectByName(String name);
 
-    List<Permission> selectPermissionByUserId(Long userId);
+    List<SysPermission> selectPermissionByUserId(Long userId);
 }

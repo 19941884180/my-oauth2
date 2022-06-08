@@ -116,6 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/sysUser/addUser").permitAll() // 允许post请求/add-user，而无需认证
+                .antMatchers(HttpMethod.GET,"/getCurrentUser").permitAll()
                 .antMatchers("/sysUser/captcha").permitAll()//验证码放过
                 .antMatchers("/login/**").permitAll()//验证码放过
                 .antMatchers("/oauth/**").permitAll()//oauth2 请求路径放过
@@ -129,7 +130,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 failureHandler(customizeAuthenticationFailureHandler).//登录失败处理逻辑
 
                 //登出
-                        and().logout().
+                and().logout().
                 permitAll()//允许所有用户
                 .logoutSuccessHandler(customizeLogoutSuccessHandler)//登出成功处理逻辑
 

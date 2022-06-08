@@ -1,16 +1,15 @@
 package com.oauth2.controller;
 
-import cn.hutool.core.map.MapUtil;
-import com.oauth2.entity.Permission;
-import com.oauth2.entity.SysUser;
-import com.oauth2.service.UserService;
 import com.oauth2.utils.JsonResult;
 import com.oauth2.utils.ResultTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.security.oauth2.provider.*;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,27 +41,31 @@ public class HelloController {
     }
 
     @Autowired
-    private TokenEndpoint tokenEndpoint;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService userService;
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
+
+    @Autowired
+    private ClientDetailsService clientDetailsService;
 
     // 提交测试
     @PostMapping("/login")
     public JsonResult login(@RequestBody Map<String,String> request) throws HttpRequestMethodNotSupportedException {
-        User userClient = new User("password","123456",new ArrayList<>());
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userClient,null,new ArrayList<>());
-        request.put("grant_type","password");
-        request.put("client_id","password");
-        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(token,request).getBody();
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysUser sysUser = userService.selectByName(MapUtil.getStr(request,"username"));
-        List<Permission> permissions = userService.selectPermissionByUserId(sysUser.getId());
-        sysUser.setPassword(null);
-        Map<String,Object> result = new HashMap<>();
-        result.put("sysUser",sysUser);
-        result.put("oAuth2AccessToken",oAuth2AccessToken);
-        result.put("permissions",permissions);
-        return ResultTool.success(result);
+        TokenRequest tokenRequest = new TokenRequest(request, "client_id", null, "password");
+        String username = request.get("username");
+        String password = request.get("password");
+        Authentication userAuth = new UsernamePasswordAuthenticationToken(username, password,new ArrayList<>());
+        ClientDetails client = clientDetailsService.loadClientByClientId("client_id");
+        userAuth = authenticationManager.authenticate(userAuth);
+        OAuth2Request oauth2Request = tokenRequest.createOAuth2Request(client);
+        OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(new OAuth2Authentication(oauth2Request, userAuth));
+        return ResultTool.success(accessToken);
+    }
+    @GetMapping("/getCurrentUser")
+    public JsonResult getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResultTool.success(principal);
     }
 }

@@ -1,6 +1,6 @@
 package com.oauth2.config;
 
-import com.oauth2.entity.Role;
+import com.oauth2.entity.SysRole;
 import com.oauth2.entity.SysUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +24,7 @@ public class SecuritySysUser extends User {
     /**
      * 权限信息
      */
-    private List<Role> roleList;
+    private List<SysRole> roleList;
     /**
      * 构造方法
      * @param username

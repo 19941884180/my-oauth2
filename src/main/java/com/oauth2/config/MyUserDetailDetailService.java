@@ -1,10 +1,10 @@
 package com.oauth2.config;
 
-import com.oauth2.entity.Permission;
+import com.oauth2.entity.SysPermission;
 import com.oauth2.entity.SysUser;
 import com.oauth2.entity.SysUserExample;
 import com.oauth2.mapper.SysUserMapper;
-import com.oauth2.mapper.UserRoleMapper;
+import com.oauth2.mapper.SysUserRoleMapper;
 import com.oauth2.mapper.ext.SysUserExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +27,7 @@ public class MyUserDetailDetailService implements UserDetailsService {
     @Autowired
     private SysUserMapper sysUserMapper;
     @Autowired
-    private UserRoleMapper userRoleMapper;
+    private SysUserRoleMapper userRoleMapper;
     @Autowired
     private SysUserExtMapper sysUserExtMapper;
 
@@ -46,9 +46,9 @@ public class MyUserDetailDetailService implements UserDetailsService {
         if(1!=sysUser.getState()){
             throw new RuntimeException("账户已被锁定，请联系管理员！");
         }
-        List<Permission> permissions = sysUserExtMapper.selectPermissionByUserId(sysUser.getId());
+        List<SysPermission> permissions = sysUserExtMapper.selectPermissionByUserId(sysUser.getId());
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for(Permission permission : permissions){
+        for(SysPermission permission : permissions){
             SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(permission.getPermissionCode());
             authorities.add(simpleGrantedAuthority);
         }

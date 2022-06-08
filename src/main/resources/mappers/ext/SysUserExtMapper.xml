@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oauth2.mapper.ext.SysUserExtMapper">
-    <select id="selectRoleListByUserId" resultType="com.oauth2.entity.Role">
+    <select id="selectRoleListByUserId" resultType="com.oauth2.entity.SysRole">
         select
 		r.role_id as roleId,
 		r.role_code as roleCode,
@@ -11,19 +11,19 @@
         where ur.user_id = #{userId}
     </select>
 
-    <select id="selectPermissionByUserId" resultType="com.oauth2.entity.Permission">
-            select
+    <select id="selectPermissionByUserId" resultType="com.oauth2.entity.SysPermission">
+        select
 		DISTINCT
-		p.permission_id as permissionId,
-		p.permission_code as permissionCode,
-		p.permission_name as permissionName
+		sp.id as id,
+		sp.permission_code as permissionCode,
+		sp.permission_name as permissionName
 		from
 		sys_user su
-		left join user_role ur on su .user_id = ur.user_id
-		left join role r on ur.role_id = r.role_id
-		left join role_permission rp on r.role_id = rp.role_id
-		left join permission p on rp.permission_id = p.permission_id
-		where su.user_id = #{userId}
+		left join sys_user_role sur on su.id = sur.uid
+		left join sys_role sr on sur.rid = sr.id
+		left join sys_role_permission srp on sr.id = srp.role_id
+		left join sys_permission sp on srp.permission_id = sp.id
+		where su.id = #{userId}
     </select>
 
 

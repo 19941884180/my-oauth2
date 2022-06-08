@@ -1,6 +1,6 @@
 package com.oauth2.service.impl;
 
-import com.oauth2.entity.Permission;
+import com.oauth2.entity.SysPermission;
 import com.oauth2.entity.SysUser;
 import com.oauth2.entity.SysUserExample;
 import com.oauth2.mapper.SysUserMapper;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Permission> selectPermissionByUserId(Long userId) {
+    public List<SysPermission> selectPermissionByUserId(Long userId) {
         return sysUserExtMapper.selectPermissionByUserId(userId);
     }
 }
